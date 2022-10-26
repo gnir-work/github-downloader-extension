@@ -1,5 +1,4 @@
 export interface GithubBlobData {
-    url: string;
-    blobName: string;
+  url: string;
+  blobName: string;
 }
-
