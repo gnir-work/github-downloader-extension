@@ -50,6 +50,7 @@ let options = {
     notHMR: ['background', 'contentScript', 'devtools'],
     enableBackgroundAutoReload: true, // always true when "enableContentScriptsAutoReload" is set true
     enableContentScriptsAutoReload: true,
+    reloadContentOnBackgroundChange: true, // Needed in case the content script sends messages to the background script.
   },
   output: {
     filename: '[name].bundle.js',
