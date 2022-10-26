@@ -1,37 +1,28 @@
-function add_download_icon(row: Element) {
-    const is_file = !!row.querySelector('svg[aria-label=File]');
-    const is_folder = !!row.querySelector('svg[aria-label=Directory]');
-    if (is_file) {
-        const download_icon = document.createElement("span")
-        download_icon.style.cursor = "pointer";
-        download_icon.style.marginLeft = "0.5em";
-        download_icon.textContent = "⇩"
-        download_icon.addEventListener("click", () => {
-            const file_link = row.querySelector('a')?.href
-            if (file_link) {
-                chrome.runtime.sendMessage({message: file_link})
-            }
-        })
+import {formatDirectoryDownloadLink} from "../Background/consts";
 
-        row.insertAdjacentElement("beforeend", download_icon);
-    }
-    if (is_folder) {
-        const download_icon = document.createElement("span")
-        download_icon.style.cursor = "pointer";
-        download_icon.style.marginLeft = "0.5em";
-        download_icon.textContent = "⇩"
-        download_icon.addEventListener("click", () => {
-            const folder_link = row.querySelector('a')?.href
-            if (folder_link) {
+function addDownloadIcon(row: Element) {
+    const downloadIcon = document.createElement("span")
+    downloadIcon.style.cursor = "pointer";
+    downloadIcon.style.marginLeft = "0.5em";
+    downloadIcon.textContent = "⇩"
+
+    downloadIcon.addEventListener("click", () => {
+        const isFile = !!row.querySelector('svg[aria-label=File]');
+        const isFolder = !!row.querySelector('svg[aria-label=Directory]');
+        const link = row.querySelector('a')?.href
+        if (link) {
+            if (isFile) {
+                chrome.runtime.sendMessage({message: link})
+            } else if (isFolder) {
                 window.open(
-                    `https://download-directory.github.io/?url=${encodeURIComponent(folder_link)}`,
+                    formatDirectoryDownloadLink`${encodeURIComponent(link)}`,
                     'blank'
-
                 )
             }
-        })
-        row.insertAdjacentElement("beforeend", download_icon);
-    }
+        }
+    })
+
+    row.insertAdjacentElement("beforeend", downloadIcon);
 }
 
 
@@ -39,7 +30,7 @@ function main() {
     const rows = document.querySelectorAll('div.Details div.js-navigation-item');
     if (rows) {
         for (const row of Array.from(rows)) {
-            add_download_icon(row);
+            addDownloadIcon(row);
         }
     }
 }

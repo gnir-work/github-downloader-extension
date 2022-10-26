@@ -1,26 +1,26 @@
 import {GithubBlobData} from "./types";
 import {BLOB_IDENTIFIER, RAW_IDENTIFIER} from "./consts";
 
-function parse_url_to_blob_data(url: string): GithubBlobData {
-    const raw_url = url.replace(BLOB_IDENTIFIER, RAW_IDENTIFIER);
-    let file_name = raw_url.split("/").at(-1);
-    if (file_name === undefined) {
+function parseUrlToBlobData(url: string): GithubBlobData {
+    const rawUrl = url.replace(BLOB_IDENTIFIER, RAW_IDENTIFIER);
+    let fileName = rawUrl.split("/").at(-1);
+    if (fileName === undefined) {
         throw new Error(`Received invalid url ${url}`);
     } else {
-        file_name = file_name.startsWith('.') ? file_name.substring(1) : file_name
+        fileName = fileName.startsWith('.') ? fileName.substring(1) : fileName
     }
 
     return {
         url,
-        blob_name: file_name
+        blobName: fileName
     }
 }
 
 chrome.runtime.onMessage.addListener(({message: url}) => {
     console.log(`Received the following href ${url}, starting to download...`);
-    const blob_data = parse_url_to_blob_data(url)
+    const blobData = parseUrlToBlobData(url)
     chrome.downloads.download({
-        url: blob_data.url,
-        filename: blob_data.blob_name
+        url: blobData.url,
+        filename: blobData.blobName
     })
 })
