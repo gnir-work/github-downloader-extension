@@ -35,13 +35,13 @@ if (fileSystem.existsSync(secretsPath)) {
 let options = {
   mode: process.env.NODE_ENV || 'development',
   entry: {
-    background: path.join(__dirname, 'src', 'pages', 'Background', 'index.js'),
+    background: path.join(__dirname, 'src', 'pages', 'Background', 'index.ts'),
     contentScript: path.join(
       __dirname,
       'src',
       'pages',
       'ContentScripts',
-      'index.js'
+      'index.ts'
     ),
   },
   // "custom" is not a standard key of webpack options
