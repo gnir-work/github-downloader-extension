@@ -11,7 +11,7 @@ function parseUrlToBlobData(url: string): GithubBlobData {
   }
 
   return {
-    url,
+    url: rawUrl,
     blobName: fileName,
   };
 }
