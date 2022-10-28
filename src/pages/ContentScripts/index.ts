@@ -16,7 +16,7 @@ function addDownloadIcon(row: Element) {
       } else if (isFolder) {
         window.open(
           formatDirectoryDownloadLink`${encodeURIComponent(link)}`,
-          'blank'
+          'blank',
         );
       }
     }
@@ -27,11 +27,7 @@ function addDownloadIcon(row: Element) {
 
 function main() {
   const rows = document.querySelectorAll('div.Details div.js-navigation-item');
-  if (rows) {
-    for (const row of Array.from(rows)) {
-      addDownloadIcon(row);
-    }
-  }
+  rows.forEach(addDownloadIcon);
 }
 
 window.addEventListener('load', main);

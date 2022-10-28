@@ -17,6 +17,7 @@ function parseUrlToBlobData(url: string): GithubBlobData {
 }
 
 chrome.runtime.onMessage.addListener(({ message: url }) => {
+  // eslint-disable-next-line no-console
   console.log(`Received the following href ${url}, starting to download...`);
   const blobData = parseUrlToBlobData(url);
   chrome.downloads.download({

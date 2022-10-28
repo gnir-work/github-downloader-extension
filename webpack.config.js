@@ -41,7 +41,7 @@ let options = {
       'src',
       'pages',
       'ContentScripts',
-      'index.ts'
+      'index.ts',
     ),
   },
   // "custom" is not a standard key of webpack options
@@ -132,7 +132,7 @@ let options = {
                 description: process.env.npm_package_description,
                 version: process.env.npm_package_version,
                 ...JSON.parse(content.toString()),
-              })
+              }),
             );
           },
         },
