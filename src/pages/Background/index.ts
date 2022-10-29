@@ -1,5 +1,6 @@
 import { Action, GithubBlobData } from './types';
-import { BLOB_IDENTIFIER, formatDirectoryDownloadLink, RAW_IDENTIFIER } from './consts';
+import { BLOB_IDENTIFIER, RAW_IDENTIFIER } from './consts';
+import downloadFolder from './download_directory';
 
 function parseUrlToBlobData(url: string): GithubBlobData {
   const rawUrl = url.replace(BLOB_IDENTIFIER, RAW_IDENTIFIER);
@@ -25,25 +26,17 @@ function downloadFile(url: string) {
   });
 }
 
-function downloadFolder(url: string) {
-  chrome.tabs.create(
-    {
-      url: formatDirectoryDownloadLink`${encodeURIComponent(url)}`,
-    },
-  );
-}
-
-chrome.runtime.onMessage.addListener(({ message }) => {
+chrome.runtime.onMessage.addListener(async ({ message }) => {
   // eslint-disable-next-line no-console
   switch (message.type) {
     case Action.downloadFile:
       downloadFile(message.url);
       break;
     case Action.downloadFolder:
-      downloadFolder(message.url);
+      await downloadFolder(message.url);
       break;
     default:
-      console.error(`Recieved unkown action type ${message.type}`);
+      console.error(`Received unknown action type ${message.type}`);
       break;
   }
 });
