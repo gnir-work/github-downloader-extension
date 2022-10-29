@@ -11,6 +11,5 @@ export default function Title() {
       <Avatar className="title-avatar" src={logo} />
       <h3 className="title-text"> Github Downloader </h3>
     </div>
-
   );
 }

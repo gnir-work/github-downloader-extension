@@ -7,7 +7,11 @@ import './Popup.css';
 
 function Popup() {
   return (
-    <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
+    <MantineProvider
+      theme={{ colorScheme: 'dark' }}
+      withGlobalStyles
+      withNormalizeCSS
+    >
       <div className="App">
         <Title />
         <TokenInput />

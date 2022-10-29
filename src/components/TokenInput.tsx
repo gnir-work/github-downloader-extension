@@ -1,7 +1,5 @@
 import { PasswordInput } from '@mantine/core';
-import React, {
-  BaseSyntheticEvent, useEffect, useState,
-} from 'react';
+import React, { BaseSyntheticEvent, useEffect, useState } from 'react';
 
 import './TokenInput.scss';
 
@@ -33,6 +31,5 @@ export default function TokenInput() {
         onChange={handleTokenChange}
       />
     </div>
-
   );
 }

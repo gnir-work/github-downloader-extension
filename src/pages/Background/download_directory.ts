@@ -3,7 +3,9 @@ import { DIRECTORY_DOWNLOAD_LINK, formatDirectoryDownloadLink } from './consts';
 async function updateTokenValue(tabId: number, newToken: string) {
   await chrome.scripting.executeScript({
     target: { tabId },
-    func: (token) => { localStorage.token = token; },
+    func: (token) => {
+      localStorage.token = token;
+    },
     args: [newToken],
   });
 }
@@ -18,12 +20,9 @@ export default async function downloadFolder(folder_url: string) {
     if (token) {
       await updateTokenValue(tab.id, token);
     }
-    await chrome.tabs.update(
-      tab.id,
-      {
-        url: formatDirectoryDownloadLink`${encodeURIComponent(folder_url)}`,
-        active: true,
-      },
-    );
+    await chrome.tabs.update(tab.id, {
+      url: formatDirectoryDownloadLink`${encodeURIComponent(folder_url)}`,
+      active: true,
+    });
   }
 }
