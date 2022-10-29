@@ -10,8 +10,9 @@ Please note that files will automatically download and folders will be downloade
 
 #### Github access token
 When downloading folders [download directory](https://github.com/download-directory/download-directory.github.io) allows to
-pass a github access token in order make sure we don't pass the action limit on GitHub's api.
-You can insert you own github token at the extensions config page:
+pass a github access token in order make sure we don't pass the action limit on GitHub's api.  
+You can insert you own github token at the extensions config page:  
+
 ![github_token_config](/docs/github_token_config.png)
 
 ## Thanks :raised_hands:
