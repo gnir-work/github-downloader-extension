@@ -7,7 +7,6 @@ export default function TokenInput() {
   const [token, setToken] = useState('');
 
   const handleTokenChange = (event: BaseSyntheticEvent) => {
-    console.log(event);
     setToken(event.target.value);
   };
 
