@@ -5,6 +5,10 @@
   "background": {
     "service_worker": "background.bundle.js"
   },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon-48.png"
+  },
   "icons": {
     "128": "icon-128.png"
   },
@@ -21,5 +25,6 @@
       "matches": []
     }
   ],
-  "permissions": ["activeTab", "scripting", "downloads"]
+  "permissions": ["activeTab", "scripting", "downloads", "storage"],
+  "host_permissions": ["https://download-directory.github.io/"]
 }

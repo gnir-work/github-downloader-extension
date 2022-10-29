@@ -1,0 +1,12 @@
+.title {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  .title-avatar {
+    margin-right: 1em;
+  }
+
+  .title-text {
+    display: inline-block;
+  }
+}

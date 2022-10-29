@@ -5,6 +5,7 @@ const webpack = require('webpack'),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
   TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const ASSET_PATH = process.env.ASSET_PATH || '/';
 
@@ -43,6 +44,7 @@ let options = {
       'ContentScripts',
       'index.ts',
     ),
+    popup: path.join(__dirname, 'src', 'pages', 'Popup', 'index.tsx'),
   },
   // "custom" is not a standard key of webpack options
   // it will be consumed by utils/server.js and must be deleted before webpack(config)
@@ -164,6 +166,12 @@ let options = {
           force: true,
         },
       ],
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'src', 'pages', 'Popup', 'index.html'),
+      filename: 'popup.html',
+      chunks: ['popup'],
+      cache: false,
     }),
   ],
   infrastructureLogging: {
