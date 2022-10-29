@@ -1,5 +1,5 @@
-import { GithubBlobData } from './types';
-import { BLOB_IDENTIFIER, RAW_IDENTIFIER } from './consts';
+import { Action, GithubBlobData } from './types';
+import { BLOB_IDENTIFIER, formatDirectoryDownloadLink, RAW_IDENTIFIER } from './consts';
 
 function parseUrlToBlobData(url: string): GithubBlobData {
   const rawUrl = url.replace(BLOB_IDENTIFIER, RAW_IDENTIFIER);
@@ -16,12 +16,34 @@ function parseUrlToBlobData(url: string): GithubBlobData {
   };
 }
 
-chrome.runtime.onMessage.addListener(({ message: url }) => {
-  // eslint-disable-next-line no-console
-  console.log(`Received the following href ${url}, starting to download...`);
+function downloadFile(url: string) {
+  console.log(`Received the following href ${url}, starting file download...`);
   const blobData = parseUrlToBlobData(url);
   chrome.downloads.download({
     url: blobData.url,
     filename: blobData.blobName,
   });
+}
+
+function downloadFolder(url: string) {
+  chrome.tabs.create(
+    {
+      url: formatDirectoryDownloadLink`${encodeURIComponent(url)}`,
+    },
+  );
+}
+
+chrome.runtime.onMessage.addListener(({ message }) => {
+  // eslint-disable-next-line no-console
+  switch (message.type) {
+    case Action.downloadFile:
+      downloadFile(message.url);
+      break;
+    case Action.downloadFolder:
+      downloadFolder(message.url);
+      break;
+    default:
+      console.error(`Recieved unkown action type ${message.type}`);
+      break;
+  }
 });

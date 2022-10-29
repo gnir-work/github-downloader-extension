@@ -1,4 +1,4 @@
-import { formatDirectoryDownloadLink } from '../Background/consts';
+import { Action } from '../Background/types';
 
 function addDownloadIcon(row: Element) {
   const downloadIcon = document.createElement('span');
@@ -9,16 +9,16 @@ function addDownloadIcon(row: Element) {
   downloadIcon.addEventListener('click', () => {
     const isFile = !!row.querySelector('svg[aria-label=File]');
     const isFolder = !!row.querySelector('svg[aria-label=Directory]');
-    const link = row.querySelector('a')?.href;
-    if (link) {
-      if (isFile) {
-        chrome.runtime.sendMessage({ message: link });
-      } else if (isFolder) {
-        window.open(
-          formatDirectoryDownloadLink`${encodeURIComponent(link)}`,
-          'blank',
-        );
-      }
+    if (!isFile && !isFolder) {
+      throw new Error("Row doesn't contain folder nor file data");
+    } else {
+      const url = row.querySelector('a')?.href;
+      chrome.runtime.sendMessage({
+        message: {
+          type: isFile ? Action.downloadFile : Action.downloadFolder,
+          url,
+        },
+      });
     }
   });
 
