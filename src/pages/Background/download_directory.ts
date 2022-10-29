@@ -14,7 +14,10 @@ export default async function downloadFolder(folder_url: string) {
     active: false,
   });
   if (tab.id) {
-    await updateTokenValue(tab.id, '<some_token>');
+    const { token } = await chrome.storage.sync.get(['token']);
+    if (token) {
+      await updateTokenValue(tab.id, token);
+    }
     await chrome.tabs.update(
       tab.id,
       {
