@@ -1,8 +1,9 @@
-import { Input } from 'antd';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { PasswordInput } from '@mantine/core';
 import React, {
   BaseSyntheticEvent, useEffect, useState,
 } from 'react';
+
+import './TokenInput.scss';
 
 export default function TokenInput() {
   const [token, setToken] = useState('');
@@ -23,12 +24,15 @@ export default function TokenInput() {
   }, [token]);
 
   return (
-    <Input.Password
-      placeholder="input password"
-      iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-      value={token}
-      onChange={handleTokenChange}
-      addonBefore="Github Token"
-    />
+    <div className="token-input-container">
+      <span className="token-label"> Github Token: </span>
+      <PasswordInput
+        className="token-input"
+        placeholder="input password"
+        value={token}
+        onChange={handleTokenChange}
+      />
+    </div>
+
   );
 }

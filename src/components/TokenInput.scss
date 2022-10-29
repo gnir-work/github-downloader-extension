@@ -1,0 +1,11 @@
+.token-input-container {
+  display: flex;
+  align-items: center;
+
+  .token-label {
+    margin-right: 0.5em;
+  }
+  .token-input {
+    flex: 1
+  }
+}
