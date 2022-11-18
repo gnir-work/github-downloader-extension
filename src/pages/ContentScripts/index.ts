@@ -1,4 +1,7 @@
 import { Action } from '../Background/types';
+import debounce from 'lodash.debounce';
+
+let currentHref = document.location.href;
 
 function addDownloadIcon(row: Element) {
   const downloadIcon = document.createElement('span');
@@ -25,9 +28,21 @@ function addDownloadIcon(row: Element) {
   row.insertAdjacentElement('beforeend', downloadIcon);
 }
 
-function main() {
+function insertDownloadIcons() {
   const rows = document.querySelectorAll('div.Details div.js-navigation-item');
   rows.forEach(addDownloadIcon);
+}
+
+function main() {
+  insertDownloadIcons();
+  const observer = new MutationObserver(debounce(() => {
+    if (document.location.href !== currentHref) {
+      currentHref = document.location.href;
+      insertDownloadIcons();
+    }
+  }, 1000));
+  const config = { attributes: false, childList: true, subtree: true };
+  observer.observe(document, config);
 }
 
 window.addEventListener('load', main);
