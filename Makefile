@@ -1,8 +1,8 @@
 install:
-	npm install
+	yarn install
 
 pre-commit:
-	npm run format
-	npm run lint
+	yarn run format
+	yarn run lint
 
 lint: pre-commit
