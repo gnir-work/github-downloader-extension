@@ -6,3 +6,8 @@ pre-commit:
 	yarn run lint
 
 lint: pre-commit
+
+dev:
+	yarn start
+
+

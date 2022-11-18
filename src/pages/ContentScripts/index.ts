@@ -1,4 +1,9 @@
+import debounce from 'lodash.debounce';
 import { Action } from '../Background/types';
+
+let currentHref = document.location.href;
+const FILE_SELECTOR = 'svg[aria-label=File]';
+const DIRECTORY_SELECTOR = 'svg[aria-label=Directory]';
 
 function addDownloadIcon(row: Element) {
   const downloadIcon = document.createElement('span');
@@ -7,8 +12,8 @@ function addDownloadIcon(row: Element) {
   downloadIcon.textContent = '⇩';
 
   downloadIcon.addEventListener('click', () => {
-    const isFile = !!row.querySelector('svg[aria-label=File]');
-    const isFolder = !!row.querySelector('svg[aria-label=Directory]');
+    const isFile = !!row.querySelector(FILE_SELECTOR);
+    const isFolder = !!row.querySelector(DIRECTORY_SELECTOR);
     if (!isFile && !isFolder) {
       throw new Error("Row doesn't contain folder nor file data");
     } else {
@@ -25,9 +30,22 @@ function addDownloadIcon(row: Element) {
   row.insertAdjacentElement('beforeend', downloadIcon);
 }
 
+function insertDownloadIcons() {
+  const rows = Array.from(document.querySelectorAll('div.Details div.js-navigation-item'));
+  const downloadableRows = rows.filter((row: Element) => row.querySelector(`${DIRECTORY_SELECTOR},${FILE_SELECTOR}`));
+  downloadableRows.forEach(addDownloadIcon);
+}
+
 function main() {
-  const rows = document.querySelectorAll('div.Details div.js-navigation-item');
-  rows.forEach(addDownloadIcon);
+  insertDownloadIcons();
+  const observer = new MutationObserver(debounce(() => {
+    if (document.location.href !== currentHref) {
+      currentHref = document.location.href;
+      insertDownloadIcons();
+    }
+  }, 1000));
+  const config = { attributes: false, childList: true, subtree: true };
+  observer.observe(document, config);
 }
 
 window.addEventListener('load', main);
